@@ -1,17 +1,15 @@
 `timescale 1ns/1ns
-module inverter_TB #(parameter n=16) ();
+module inverter_TB ();
   
-  reg [n-1:0]IN;
-  wire [n-1:0]OUT;
+  reg IN;
+  wire OUT;
   
   inverter inv1(IN,OUT);
   
   initial begin
-    IN=365;
+    IN=0;
     #200;
-    IN=256;
-    #200;
-    IN=32767;
+    IN=1;
     #200;
     $stop;
   end 
