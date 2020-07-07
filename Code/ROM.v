@@ -1,37 +1,33 @@
 module ROM
 #(
     parameter WORD_LENGTH = 16,
-    parameter ADDRESS_LENGTH = 4,
-    parameter MEMORY_DEPTH = 16
+    parameter ADDRESS_LENGTH = 4
 )
 (
-    input                       read_enable,
-    input [ADDRESS_LENGTH-1:0]  address,
-    output [WORD_LENGTH-1:0]    data
+    input [ADDRESS_LENGTH-1:0]    address,
+    output reg [WORD_LENGTH-1:0]  data
 );
   
-  reg [WORD_LENGTH-1:0] memory [0:MEMORY_DEPTH-1];
-  
-  assign data = (read_enable) ? memory[address] : 16'b0;
-  
-  initial begin
-      memory[0]  = 16'b0010000000000000;
-      memory[1]  = 16'b0001001011100100;
-      memory[2]  = 16'b0000100111111011;
-      memory[3]  = 16'b0000010100010001;
-      memory[4]  = 16'b0000001010001011;
-      memory[5]  = 16'b0000000101000101;
-      memory[6]  = 16'b0000000010100010;
-      memory[7]  = 16'b0000000001010001;
-      memory[8]  = 16'b0000000000101000;
-      memory[9]  = 16'b0000000000010100;
-      memory[10] = 16'b0000000000001010;
-      memory[11] = 16'b0000000000000101;
-      memory[12] = 16'b0000000000000010;
-      memory[13] = 16'b0000000000000001;
-      memory[14] = 16'b0000000000000000;
-      memory[15] = 16'b0000000000000000;
-    end
+  always @*
+    case(address)
+      4'b0000: data = 16'b0010000000000000;
+      4'b0001: data = 16'b0001001011100100;
+      4'b0010: data = 16'b0000100111111011;
+      4'b0011: data = 16'b0000010100010001;
+      4'b0100: data = 16'b0000001010001011;
+      4'b0101: data = 16'b0000000101000101;
+      4'b0110: data = 16'b0000000010100010;
+      4'b0111: data = 16'b0000000001010001;
+      4'b1000: data = 16'b0000000000101000;
+      4'b1001: data = 16'b0000000000010100;
+      4'b1010: data = 16'b0000000000001010;
+      4'b1011: data = 16'b0000000000000101;
+      4'b1100: data = 16'b0000000000000010;
+      4'b1101: data = 16'b0000000000000001;
+      4'b1110: data = 16'b0000000000000000;
+      4'b1111: data = 16'b0000000000000000;
+      default: data = 16'b0000000000000000;
+    endcase
     
 endmodule 
 
