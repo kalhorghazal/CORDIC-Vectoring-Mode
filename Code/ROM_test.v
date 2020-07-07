@@ -1,12 +1,12 @@
 `timescale 1ns/1ns
 
 module ROM_test;
-  
+
+parameter clock_period = 10;  
+
 parameter WORD_LENGTH = 16;
 parameter ADDRESS_LENGTH = 4;
-parameter MEMORY_DEPTH = 16;
 
-reg                      read_enable;
 reg [ADDRESS_LENGTH-1:0] address;
 wire [WORD_LENGTH-1:0]   data;
 
@@ -14,11 +14,9 @@ wire [WORD_LENGTH-1:0]   data;
 ROM
 #(
    .WORD_LENGTH(WORD_LENGTH),
-   .ADDRESS_LENGTH(ADDRESS_LENGTH),
-   .MEMORY_DEPTH(MEMORY_DEPTH)
+   .ADDRESS_LENGTH(ADDRESS_LENGTH)
 )
    ROM_inst (
-      .read_enable(read_enable),
       .address(address),
       .data(data)
 );   
@@ -26,26 +24,24 @@ ROM
 //applying inputs and monitoring the results
 initial
    begin
-     read_enable = 1'b0;
      address = {ADDRESS_LENGTH{1'b0}}; 
-     #10
-     read_enable = 1'b1;
+     # clock_period
      address = 4'd4;
-     #10
+     # clock_period
      address = 4'd5;
-     #10
+     # clock_period
      address = 4'd9;
-     #10
+     # clock_period
      address = 4'd12;
-     #10
+     # clock_period
      address = 4'd10;
-     #10
+     # clock_period
      address = 4'd3;
-     #10
+     # clock_period
      address = 4'd2;
-     #10
+     # clock_period
      address = 4'd11;
-     #20 $stop;
+     # (2*clock_period) $stop;
    end
    
    initial begin
