@@ -1,6 +1,8 @@
 module data_path
 #(
-  parameter WORD_LENGTH = 16
+  parameter WORD_LENGTH = 16,
+  parameter ADDRESS_LENGTH = 4,
+  parameter SHIFT_LENGTH = 5
 )
 (
   input                    clk,
@@ -18,9 +20,18 @@ module data_path
   input [WORD_LENGTH-1:0]  y_in, 
   output [WORD_LENGTH-1:0] z_out
 );
+
+  wire reg_out_d0;
+  wire reg_out_d;
+  wire sign_out_y;
   
   wire [WORD_LENGTH-1:0] reg_out_x;
   wire [WORD_LENGTH-1:0] reg_out_y;
+  wire [WORD_LENGTH-1:0] reg_out_z;
+  
+  wire [WORD_LENGTH-1:0] abs_out_y;
+  
+  wire [WORD_LENGTH-1:0] ROM_out;
   
   wire [WORD_LENGTH-1:0] mux_out_x;
   wire [WORD_LENGTH-1:0] mux_out_y;
@@ -30,6 +41,27 @@ module data_path
   wire [WORD_LENGTH-1:0] ALU_out_y;
   wire [WORD_LENGTH-1:0] ALU_out_z;
   
+  wire [WORD_LENGTH-1:0] shift_out_x;
+  wire [WORD_LENGTH-1:0] shift_out_y;
+  
+  sign
+  #(
+   .WORD_LENGTH(WORD_LENGTH)
+  )
+  sign_inst (
+   .ans(reg_out_y),
+   .sign_ans(sign_out_y)
+  );
+  
+  abs
+  #(
+   .WORD_LENGTH(WORD_LENGTH)
+  )
+  abs_inst (
+   .ans(reg_out_y),
+   .abs_ans(abs_out_y)
+  ); 
+  
   mux_3_to_1
   #(
    .WORD_LENGTH(WORD_LENGTH)
@@ -37,8 +69,8 @@ module data_path
   mux_3_to_1_inst_x (
    .sel(sel_x),
    .in1(x_in),
-   .in2(),
-   .in3(),
+   .in2(abs_out_y),
+   .in3(ALU_out_x),
    .out(mux_out_x)
   ); 
   
@@ -50,7 +82,7 @@ module data_path
    .sel(sel_y),
    .in1(y_in),
    .in2(),
-   .in3(),
+   .in3(ALU_out_y),
    .out(mux_out_y)
   ); 
   
@@ -61,7 +93,7 @@ module data_path
   mux_3_to_1_inst_z (
    .sel(sel_z),
    .in1(),
-   .in2(),
+   .in2(ALU_out_z),
    .in3(),
    .out(mux_out_z)
   ); 
@@ -100,7 +132,7 @@ module data_path
    .clear(clear_z),
    .load(load_z),
    .in(mux_out_z),
-   .out(z_out)
+   .out(reg_out_z)
   ); 
   
   register
@@ -111,8 +143,8 @@ module data_path
    .clk(clk),
    .rst(rst),
    .load(load_d0),
-   .in(),
-   .out()
+   .in(sign_out_y),
+   .out(reg_out_d0)
   ); 
   
   register
@@ -123,8 +155,8 @@ module data_path
    .clk(clk),
    .rst(rst),
    .load(load_d),
-   .in(),
-   .out()
+   .in(sign_out_y),
+   .out(reg_out_d)
   ); 
 
   ALU
@@ -133,8 +165,8 @@ module data_path
   )
   ALU_inst_x (
    .ALU_operation(),
-   .A(),
-   .B(),
+   .A(reg_out_x),
+   .B(shift_out_y),
    .AlU_out(ALU_out_x)
   );   
   
@@ -144,8 +176,8 @@ module data_path
   )
   ALU_inst_y (
    .ALU_operation(),
-   .A(),
-   .B(),
+   .A(reg_out_y),
+   .B(shift_out_x),
    .AlU_out(ALU_out_y)
   ); 
   
@@ -155,9 +187,43 @@ module data_path
   )
   ALU_inst_z (
    .ALU_operation(),
-   .A(),
-   .B(),
+   .A(reg_out_z),
+   .B(ROM_out),
    .AlU_out(ALU_out_z)
   ); 
+  
+  shift_right_var
+  #(
+   .WORD_LENGTH(WORD_LENGTH),
+   .SHIFT_LENGTH(SHIFT_LENGTH)
+  )
+  shift_right_var_inst_x (
+   .data_in(reg_out_x),
+   .shift_amount(),
+   .data_out(shift_out_x)
+  ); 
+  
+  shift_right_var
+  #(
+   .WORD_LENGTH(WORD_LENGTH),
+   .SHIFT_LENGTH(SHIFT_LENGTH)
+  )
+  shift_right_var_inst_y (
+   .data_in(reg_out_y),
+   .shift_amount(),
+   .data_out(shift_out_y)
+  ); 
+  
+  ROM
+  #(
+   .WORD_LENGTH(WORD_LENGTH),
+   .ADDRESS_LENGTH(ADDRESS_LENGTH)
+  )
+  ROM_inst (
+   .address(),
+   .data(ROM_out)
+  );
+  
+  assign z_out = reg_out_z;
 
 endmodule
