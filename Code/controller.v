@@ -3,21 +3,22 @@ module controller
   parameter ITERATION_WIDTH = 4
 )
 (
-  input                       clk,
-  input                       rst,
-  input                       start,
-  input                       neg_x,
-  input [ITERATION_WIDTH-1:0] n,
-  output reg                  done,
-  output reg                  load_x,
-  output reg                  load_y,
-  output reg                  load_z,
-  output reg                  load_d,
-  output reg                  load_d0,
-  output reg [1:0]            sel_x,
-  output reg [1:0]            sel_y,
-  output reg [1:0]            sel_z,
-  output reg                  clear_z
+  input                            clk,
+  input                            rst,
+  input                            start,
+  input                            neg_x,
+  input [ITERATION_WIDTH-1:0]      n,
+  output reg                       done,
+  output reg                       load_x,
+  output reg                       load_y,
+  output reg                       load_z,
+  output reg                       load_d,
+  output reg                       load_d0,
+  output reg [1:0]                 sel_x,
+  output reg [1:0]                 sel_y,
+  output reg [1:0]                 sel_z,
+  output reg                       clear_z,
+  output reg [ITERATION_WIDTH-1:0] iteration_counter
 );
   
   parameter IDLE        = 3'b000;
@@ -29,7 +30,6 @@ module controller
   
   reg [2:0] next_state;
   reg [2:0] state;  
-  reg iteration_counter;
   
   always@(*) begin   
     {done, load_x, load_y, load_z, load_d, load_d0, clear_z} = 7'd0;
