@@ -1,15 +1,14 @@
-`timescale 1ns/1ns
 module abs 
 #(
-  parameter NUM_WIDTH = 16
+  parameter WORD_LENGTH = 16
 )
 (
-  input[NUM_WIDTH -1:0] ans,
-  output reg[NUM_WIDTH -1:0] abs_ans
+  input [WORD_LENGTH-1:0]      ans,
+  output reg [WORD_LENGTH-1:0] abs_ans
 );
 
-always @* begin
-  if (ans[NUM_WIDTH - 1] == 1'b1) begin
+always@(*) begin
+  if (ans[WORD_LENGTH-1] == 1'b1) begin
     abs_ans = -ans;
   end
   else begin
@@ -18,4 +17,3 @@ always @* begin
 end
   
 endmodule    
-    
