@@ -1,31 +1,25 @@
-`timescale 1ns/1ns
-
 module register
 #(
-  parameter NUM_WIDTH = 16
+  parameter WORD_LENGTH = 16
 )  
 (
-  input clk,
-  input rst,
-  input ld,
-  input [NUM_WIDTH - 1:0] in,
-  output reg [NUM_WIDTH -1:0]out
+  input                        clk,
+  input                        rst,
+  input                        load,
+  input [WORD_LENGTH-1:0]      in,
+  output reg [WORD_LENGTH-1:0] out
 );
   
-always @(posedge clk,negedge rst) begin
-  if(!rst) begin
+always @(posedge clk or negedge rst) begin
+  if(~rst) begin
     out <= 0;
   end  
-  else if(ld == 1) begin
+  else if(load) begin
     out <= in;
   end   
-    else begin
-      out <= out;
-    end   
+  else begin
+    out <= out;
+  end   
  end
        
 endmodule
-
-
-
-
