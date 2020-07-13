@@ -1,11 +1,14 @@
-`timescale 1ns/1ns
-module inverter (in,out);
-  
-  input in;
-  output reg out;
-  
-  always@(in)begin
-    out=~in;
+module inverter 
+#(
+  parameter WORD_LENGTH = 16
+)
+(
+  input [WORD_LENGTH-1:0]      in,
+  output reg [WORD_LENGTH-1:0] out
+);
+
+  always @(*) begin
+    out = -in;
   end
-endmodule
-  
+
+endmodule 
