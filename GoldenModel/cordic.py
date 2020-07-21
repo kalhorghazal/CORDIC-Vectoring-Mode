@@ -1,6 +1,9 @@
 import math
 
-def vector_mode(x, y, z, coordinate, iterations):
+def ROM_lookup(iteration):
+    return math.degrees(math.atan(2**(-1*iteration)))
+
+def vector_mode(x, y, z, iterations):
     a = 1.2075;   # = 1/K
     
     x_val_list = []
@@ -15,22 +18,16 @@ def vector_mode(x, y, z, coordinate, iterations):
     current_z = z         # Value of Z on ith iteration
     
     di = 0
-    
-    # This is neccesary since result for i=0 doesn't exists for hyperbolic 
-    # co-ordinate system.
-    if (coordinate == hyperbolic):
-        i = 1
-    else:
-        i = 0
+
         
     flag = 0
     
     if (iterations > 0):
         while (i < iterations):
             di = -1*math.copysign(1, current_y);#*current_x);
-            next_x = current_x - coordinate * di * current_y * (2**(-1*i))
+            next_x = current_x - current_y * (2**(-1*i))
             next_y = current_y + di * current_x * 2**(-1*i)
-            next_z = current_z - di * ROM_lookup(i, coordinate)
+            next_z = current_z - di * ROM_lookup(i)
             
             current_x = next_x
             current_y = next_y
@@ -41,15 +38,12 @@ def vector_mode(x, y, z, coordinate, iterations):
             z_val_list.append(current_z)
             
             iterations_list.append(i)
-            
-            if (coordinate == hyperbolic):
-                if ((i != 4) & (i != 13) & (i!=40)):
-                    i = i+1
-                elif (flag == 0):
-                    flag = 1
-                elif (flag == 1):
-                    flag = 0
-                    i = i+1
-            else:
-                i = i+1
-    return { 'x':x_val_list, 'y':y_val_list, 'z':z_val_list, 'iteration':iterations_list }
+
+            i = i+1
+
+    return {'z':z_val_list }
+
+    #return { 'x':x_val_list, 'y':y_val_list, 'z':z_val_list, 'iteration':iterations_list }
+
+
+print(vector_mode(1, 2, 0, 16))
