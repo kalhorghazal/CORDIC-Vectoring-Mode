@@ -47,7 +47,7 @@ initial
   end
   
   initial begin
-    $display("sign WIDTH = %0d", WORD_WIDTH);
+    $display("mux WIDTH = %0d", WORD_WIDTH);
     $monitor("@%3tns: sel = %0d -> out = %0b", $time, sel, out);
   end
     
