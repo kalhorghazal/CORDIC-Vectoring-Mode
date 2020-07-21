@@ -10,22 +10,25 @@ module control_unit
   output reg done
 );
   
-  parameter IDLE      = 1'b0;
-  parameter COMPUTE   = 1'b1;
+  parameter IDLE      = 2'b00;
+  parameter COMPUTE   = 2'b01;
+  parameter FINAL     = 2'b10;
   
   reg [ITERATION_WIDTH-1:0] iteration_counter;
   
-  reg next_state;
-  reg state;  
+  reg [1:0] next_state;
+  reg [1:0] state;  
   
   always@(*) begin   
     done = 0;
     case(state)
       IDLE: begin
-        done = 1;
       end
       COMPUTE: begin
       end
+      FINAL: begin
+        done = 1;
+      end 
       default: begin
         done = 0;
       end
@@ -39,7 +42,10 @@ module control_unit
         next_state = (start) ? COMPUTE : IDLE;
       end
       COMPUTE: begin
-        next_state = (iteration_counter < ITERATIONS-1) ? COMPUTE : IDLE;
+        next_state = (iteration_counter < ITERATIONS-1) ? COMPUTE : FINAL;
+      end
+      FINAL: begin
+        next_state = IDLE;
       end
       default: begin
         next_state = IDLE;
