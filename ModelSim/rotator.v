@@ -2,12 +2,12 @@
  
 module rotator 
 #(
-  parameter integer ITERATION = 0,
+  parameter [3:0] ITERATION = 4'd0,
   parameter signed [`PHASE_WIDTH-1:0] PHASE = 0
 )
 (
-  input clk,
-  input rst,
+  input                            clk,
+  input                            rst,
   
   input signed [`WORD_WIDTH-1:0]   x_in,
   input signed [`WORD_WIDTH-1:0]   y_in,
