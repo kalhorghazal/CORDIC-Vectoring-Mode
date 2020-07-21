@@ -10,6 +10,11 @@ module cordic
  
   output signed [`PHASE_WIDTH-1:0] z_out
 );
+
+parameter [`WORD_WIDTH-1:0] FIRST_QUADRANT  = 16'b000000000_0000000;
+parameter [`WORD_WIDTH-1:0] SECOND_QUADRANT = 16'b001011010_0000000;
+parameter [`WORD_WIDTH-1:0] THIRD_QUADRANT  = 16'b010110100_0000000;
+parameter [`WORD_WIDTH-1:0] FORTH_QUADRANT  = 16'b100001110_0000000;
  
 /*
    arctan table in degree U(9,7) format 16 bits 
@@ -69,10 +74,10 @@ endfunction
   )
   mux_4_to_1_inst (
    .sel({x_in[`WORD_WIDTH-1], y_in[`WORD_WIDTH-1]}),
-   .in1(`FIRST_QUADRANT),
-   .in2(`THIRD_QUADRANT),
-   .in3(`SECOND_QUADRANT),
-   .in4(`THIRD_QUADRANT),
+   .in1(FIRST_QUADRANT),
+   .in2(FORTH_QUADRANT),
+   .in3(SECOND_QUADRANT),
+   .in4(THIRD_QUADRANT),
    .out(offset)
   ); 
   
@@ -83,7 +88,7 @@ endfunction
   Adder_inst (
    .A(z[`ITERATIONS-1]),
    .B(offset),
-   .AlU_out(z_out)
+   .out(z_out)
   );
   
   assign z[0] = 0;
