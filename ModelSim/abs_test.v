@@ -41,7 +41,7 @@ initial
   end
   
   initial begin
-    $display("sign WIDTH = %0d", WORD_WIDTH);
+    $display("abs WIDTH = %0d", WORD_WIDTH);
     $monitor("@%3tns: sbs(%0b) = %0b", $time, in, out);
   end
     
