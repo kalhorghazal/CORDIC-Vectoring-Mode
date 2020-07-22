@@ -36,50 +36,50 @@ interface
 
 initial
  begin
-     x_in = 16'b10; // (2, 1) -> real_theta = 26.56 , result = 22.5
+     x_in = 16'b10; // (2, 1) -> real_theta = 26.56 , result = 18.75
      y_in = 16'b1;
      start  = 1;
      rst = 0;
      # clock_period;
      rst = 1;
      start = 0;
-     # (20*clock_period);
-     x_in = 16'b11; // (3, 4) -> real_theta = 36.87 , result = 33.75
+     # (100*clock_period);
+     x_in = 16'b11; // (3, 4) -> real_theta = 53.13 , result = 57.5
      y_in = 16'b100;
      start = 1;
      rst = 0;
      # clock_period;
      rst = 1;
-     # (20*clock_period);
-     x_in = 16'b100; // (4, 3) -> real_theta = 53.13 , result = 56.5
+     # (100*clock_period);
+     x_in = 16'b100; // (4, 3) -> real_theta = 36.87 , result = 32.75
      y_in = 16'b11;
      start = 1;
      rst = 0;
      # clock_period;
      rst = 1;
-     # (20*clock_period);
-     x_in = 16'b1111111111111111; // (-1, -1)  -> real_theta = 225, result = 225
+     # (100*clock_period);
+     x_in = 16'b1111111111111111; // (-1, -1)  -> real_theta = 225, result = 223.5
      y_in = 16'b1111111111111111;
      start = 1;
      rst = 0;
      # clock_period;
      rst = 1;
-     # (20*clock_period);
-     x_in = 16'b0000000000000001; // (1, -1) -> real_theta = 315, result = 315
+     # (100*clock_period);
+     x_in = 16'b0000000000000001; // (1, -1) -> real_theta = 315, result = 313.5
      y_in = 16'b1111111111111111;
      start = 1;
      rst = 0;
      # clock_period;
      rst = 1;
-     # (20*clock_period);
-     x_in = 16'b0000000000000001; // (1, 1) -> real_theta = 45, result = 45
+     # (100*clock_period);
+     x_in = 16'b0000000000000001; // (1, 1) -> real_theta = 45, result = 43.5
      y_in = 16'b0000000000000001;
      start = 1;
      rst = 0;
      # clock_period;
      rst = 1;
-     # (20*clock_period);
-     x_in = 16'b1111111111111111; // (-1, 1) -> real_theta = 135, result = 135
+     # (100*clock_period);
+     x_in = 16'b1111111111111111; // (-1, 1) -> real_theta = 135, result = 133.4
      y_in = 16'b0000000000000001;
      start = 1;
      rst = 0;
