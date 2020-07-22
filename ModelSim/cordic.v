@@ -19,6 +19,31 @@ parameter [`WORD_WIDTH-1:0] FORTH_QUADRANT  = 16'b100001110_0000000;
 /*
    arctan table in degree U(9,7) format 16 bits 
 */
+function [`PHASE_WIDTH-1:0] arctangent;  // values based on lookup table in golden model
+  input [3:0] i;
+  begin
+    case (i)
+    0 : arctangent = 16'b000101101_0000000; // phase = 45.000000
+    1 : arctangent = 16'b000011010_1001000; // phase = 26.56505117707799
+    2 : arctangent = 16'b000001110_0000100; // phase = 14.036243467926479
+    3 : arctangent = 16'b000000111_0010000; // phase = 7.125016348901798
+    4 : arctangent = 16'b000000011_1001001; // phase = 3.576334374997351
+    5 : arctangent = 16'b000000001_1100101; // phase = 1.7899106082460694
+    6 : arctangent = 16'b000000000_1110010; // phase = 0.8951737102110744
+    7 : arctangent = 16'b000000000_0111001; // phase = 0.4476141708605531
+    8 : arctangent = 16'b000000000_0011100; // phase = 0.22381050036853808
+    9 : arctangent = 16'b000000000_0001110; // phase = 0.1119056770662069
+    10: arctangent = 16'b000000000_0000111; // phase = 0.055952891893803675
+    11: arctangent = 16'b000000000_0000011; // phase = 0.027976452617003676
+    12: arctangent = 16'b000000000_0000001; // phase = 0.013988227142265016
+    13: arctangent = 16'b000000000_0000000; // phase = 0.006994113675352919
+    14: arctangent = 16'b000000000_0000000; // phase = 0.003497056850704011
+    15: arctangent = 16'b000000000_0000000; // phase = 0.0017485284269804495
+    default: arctangent = 16'b000000000_0000000; // phase = 0
+    endcase
+  end
+endfunction
+/*
 function [`PHASE_WIDTH-1:0] arctangent;
   input [3:0] i;
   begin
@@ -43,7 +68,7 @@ function [`PHASE_WIDTH-1:0] arctangent;
     endcase
   end
 endfunction
- 
+ */
   wire signed [`WORD_WIDTH-1:0] x [`ITERATIONS-1:0];
   wire signed [`WORD_WIDTH-1:0] y [`ITERATIONS-1:0];
   wire signed [`PHASE_WIDTH-1:0] z [`ITERATIONS-1:0];
