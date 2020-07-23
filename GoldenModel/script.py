@@ -26,15 +26,9 @@ if __name__ == '__main__':
 		z_out = cordic.vector_mode(x_in, y_in, ITERATIONS)
 		z_str = "{:.7f}".format(z_out)
 
-		x_values.write(binary_string(x_in))
-		y_values.write(binary_string(y_in))
-		z_values.write(z_str)
-
-		if i < TEST_CASES-1:
-			x_values.write('\n')
-			y_values.write('\n')
-			z_values.write('\n')
-
+		x_values.write(binary_string(x_in) + '\n')
+		y_values.write(binary_string(y_in) + '\n')
+		z_values.write(z_str + '\n')
 
 		print('arctan({}/{}) = {:.7f}'.format(y_in, x_in, z_out)) 
 
