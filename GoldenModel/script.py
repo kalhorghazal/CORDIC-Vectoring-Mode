@@ -2,6 +2,7 @@ import cordic
 import random
 
 ITERATIONS = 16
+TEST_CASES = 100
 
 if __name__ == '__main__':
 
@@ -13,19 +14,24 @@ if __name__ == '__main__':
 	y_values = open(y_file, "w")
 	z_values = open(z_file, "w")
 
-	for i in range(100):
+	for i in range(TEST_CASES):
 
-		x_in = str(random.randint(0,4095)) + '\n'
-		y_in = str(random.randint(0,4095)) + '\n'
-
-		x_values.write(x_in)
-		y_values.write(y_in)
-
+		x_in = random.randint(-32768, 32767)
+		y_in = random.randint(-32768, 32767)
 		z_out = cordic.vector_mode(x_in, y_in, ITERATIONS)
+		z_str = "{:.7f}".format(z_out)
 
-		z_values.write(z_out)
+		x_values.write(str(x_in))
+		y_values.write(str(y_in))
+		z_values.write(z_str)
 
-		print('arctan({}/{}) = {}'.format(y_in, x_in, z_out)) 
+		if i < TEST_CASES-1:
+			x_values.write('\n')
+			y_values.write('\n')
+			z_values.write('\n')
+
+
+		print('arctan({}/{}) = {:.7f}'.format(y_in, x_in, z_out)) 
 
 	x_values.close()
 	y_values.close()
