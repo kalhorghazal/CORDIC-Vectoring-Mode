@@ -15,17 +15,16 @@ if __name__ == '__main__':
 
 	for i in range(100):
 
-		x_in = str(random.randint(0,4095)) + '\n'
-		y_in = str(random.randint(0,4095)) + '\n'
-
-		x_values.write(x_in)
-		y_values.write(y_in)
-
+		x_in = random.randint(0,4095)
+		y_in = random.randint(0,4095)
 		z_out = cordic.vector_mode(x_in, y_in, ITERATIONS)
+		z_str = "{:.7f}".format(z_out)  + '\n'
 
-		z_values.write(z_out)
+		x_values.write(str(x_in) + '\n')
+		y_values.write(str(y_in) + '\n')
+		z_values.write(z_str)
 
-		print('arctan({}/{}) = {}'.format(y_in, x_in, z_out)) 
+		print('arctan({}/{}) = {:.7f}'.format(y_in, x_in, z_out)) 
 
 	x_values.close()
 	y_values.close()
