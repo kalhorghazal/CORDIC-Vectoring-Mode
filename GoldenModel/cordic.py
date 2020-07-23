@@ -15,9 +15,6 @@ def vector_mode(x, y, iterations):
     current_x = x         # Value of X on ith iteration 
     current_y = y         # Value of Y on ith iteration
     current_z = 0
-
-        
-    flag = 0
     
     if (iterations > 0):
         while (i < iterations):
@@ -43,9 +40,3 @@ def vector_mode(x, y, iterations):
             i = i+1
 
     return current_z
-
-
-x_in = 3
-y_in = 4
-iterations = 16
-print('arctan({}/{}) = {}'.format(y_in, x_in, vector_mode(y_in, x_in, iterations))) 
