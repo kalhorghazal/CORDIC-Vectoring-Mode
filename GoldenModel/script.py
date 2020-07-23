@@ -4,6 +4,11 @@ import random
 ITERATIONS = 16
 TEST_CASES = 100
 
+def binary_string(val):
+	ans = (val if val>0 else val+(1<<16))
+	ans = "{0:016b}".format(ans)
+	return ans
+
 if __name__ == '__main__':
 
 	x_file = "x_values.txt"
@@ -21,8 +26,8 @@ if __name__ == '__main__':
 		z_out = cordic.vector_mode(x_in, y_in, ITERATIONS)
 		z_str = "{:.7f}".format(z_out)
 
-		x_values.write(str(x_in))
-		y_values.write(str(y_in))
+		x_values.write(binary_string(x_in))
+		y_values.write(binary_string(y_in))
 		z_values.write(z_str)
 
 		if i < TEST_CASES-1:
