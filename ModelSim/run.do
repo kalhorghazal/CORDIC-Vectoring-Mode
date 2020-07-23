@@ -9,4 +9,4 @@ sim:/cordic_test/x_in \
 sim:/cordic_test/y_in \
 sim:/cordic_test/z_out
 
-run 20400 ns
+run -all
