@@ -19,6 +19,7 @@ parameter [`WORD_WIDTH-1:0] FORTH_QUADRANT  = 16'b100001110_0000000;
 /*
    arctan table in degree U(9,7) format 16 bits 
 */
+/*
 function [`PHASE_WIDTH-1:0] arctangent;  // values based on lookup table in golden model
   input [3:0] i;
   begin
@@ -43,7 +44,7 @@ function [`PHASE_WIDTH-1:0] arctangent;  // values based on lookup table in gold
     endcase
   end
 endfunction
-/*
+*/
 function [`PHASE_WIDTH-1:0] arctangent;
   input [3:0] i;
   begin
@@ -54,13 +55,13 @@ function [`PHASE_WIDTH-1:0] arctangent;
     3 : arctangent = 16'b000000101_1010000; // phase = 5.6250000
     4 : arctangent = 16'b000000010_1101000; // phase = 2.8125000
     5 : arctangent = 16'b000000001_0110100; // phase = 1.4062500
-    6 : arctangent = 16'b000000000_1010011; // phase = 0.7031250
-    7 : arctangent = 16'b000000000_0101100; // phase = 0.3515620
-    8 : arctangent = 16'b000000000_0010110; // phase = 0.1757810
-    9 : arctangent = 16'b000000000_0001011; // phase = 0.0878910
-    10: arctangent = 16'b000000000_0000101; // phase = 0.0439450
-    11: arctangent = 16'b000000000_0000010; // phase = 0.0219730
-    12: arctangent = 16'b000000000_0000001; // phase = 0.0109860
+    6 : arctangent = 16'b000000000_1011010; // phase = 0.7031250
+    7 : arctangent = 16'b000000000_0101101; // phase = 0.3515625
+    8 : arctangent = 16'b000000000_0010110; // phase = 0.1718750
+    9 : arctangent = 16'b000000000_0001011; // phase = 0.0859375
+    10: arctangent = 16'b000000000_0000101; // phase = 0.0390625
+    11: arctangent = 16'b000000000_0000010; // phase = 0.0156250
+    12: arctangent = 16'b000000000_0000001; // phase = 0.0078125
     13: arctangent = 16'b000000000_0000000; // phase = 0.0054930
     14: arctangent = 16'b000000000_0000000; // phase = 0.0027470
     15: arctangent = 16'b000000000_0000000; // phase = 0.0013730
@@ -68,7 +69,7 @@ function [`PHASE_WIDTH-1:0] arctangent;
     endcase
   end
 endfunction
- */
+
   wire signed [`WORD_WIDTH-1:0] x [`ITERATIONS-1:0];
   wire signed [`WORD_WIDTH-1:0] y [`ITERATIONS-1:0];
   wire signed [`PHASE_WIDTH-1:0] z [`ITERATIONS-1:0];
