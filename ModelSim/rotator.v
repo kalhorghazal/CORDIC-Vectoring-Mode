@@ -18,6 +18,8 @@ module rotator
   output signed [`PHASE_WIDTH-1:0] z_out
 );
 
+wire signed [1:0] sign_out_y;
+
   wire signed [`WORD_WIDTH-1:0] shift_out_x;
   wire signed [`WORD_WIDTH-1:0] shift_out_y;
   
@@ -50,7 +52,7 @@ module rotator
    .WORD_WIDTH(`WORD_WIDTH)
   )
   ALU_inst_y (
-   .ALU_operation(~sign_out_y),
+   .ALU_operation((y_in > 0) ? 2'd1 : ((y_in == 0)? 2'd2 : 2'd0)),
    .A(y_in),
    .B(shift_out_x),
    .AlU_out(ALU_out_y)
