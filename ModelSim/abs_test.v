@@ -42,7 +42,7 @@ initial
   
   initial begin
     $display("abs WIDTH = %0d", WORD_WIDTH);
-    $monitor("@%3tns: sbs(%0b) = %0b", $time, in, out);
+    $monitor("@%3tns: abs(%0b) = %0b", $time, in, out);
   end
     
 endmodule
