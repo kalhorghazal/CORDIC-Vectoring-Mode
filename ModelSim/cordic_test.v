@@ -12,7 +12,7 @@ reg                            start;
 wire                           done;
 reg signed [`WORD_WIDTH-1:0]   x_in;
 reg signed [`WORD_WIDTH-1:0]   y_in;
-wire signed [`PHASE_WIDTH-1:0] z_out;
+wire [`PHASE_WIDTH-1:0] z_out;
 
 //generating clock for the test bench
 initial
@@ -33,6 +33,7 @@ interface
   .z_out(z_out)
 )
 ;
+localparam sf = 2.0**-7.0;  // Q4.4 scaling factor is 2^-7
 
 initial
  begin
@@ -90,8 +91,8 @@ initial
   end
   
   initial begin
-    $monitor("@%3tns: done = %0d, arctan(%0d/%0d) = %0d, fraction = %0b", 
-      $time, done, y_in, x_in, z_out[15:7], z_out[6:0]);
+    $monitor("@%3tns: done = %0d, arctan(%0d/%0d) = %0f", 
+      $time, done, y_in, x_in, $itor(z_out)*sf);
   end
     
 endmodule
