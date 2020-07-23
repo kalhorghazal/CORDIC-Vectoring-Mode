@@ -6,7 +6,7 @@ parameter WORD_WIDTH = 16;
 parameter clock_period = 2;
 
 reg [WORD_WIDTH-1:0] in;
-wire                 out;
+wire [1:0]           out;
 
 //-----instance of sign module
 sign
