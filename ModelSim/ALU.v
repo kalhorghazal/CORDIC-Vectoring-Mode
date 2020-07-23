@@ -3,20 +3,21 @@ module ALU
     parameter WORD_WIDTH = 16
 )
 (
-    input                           ALU_operation, 
+    input [1:0]                     ALU_operation, 
     input signed [WORD_WIDTH-1:0]   A,
     input signed [WORD_WIDTH-1:0]   B, 
     output signed [WORD_WIDTH-1:0]  AlU_out
 );
   
-  parameter ADD = 1'd0; 
-  parameter SUB = 1'd1; 
+  parameter ADD = 2'd0; 
+  parameter SUB = 2'd1; 
+  parameter NOP = 2'd2; 
   
   reg signed [WORD_WIDTH-1:0] result;
   
   always@(A, B, ALU_operation)
   begin
-    result = {WORD_WIDTH{1'b0}};
+    result = A;
     case(ALU_operation)
       ADD : begin 
         result = A + B;      
@@ -24,8 +25,11 @@ module ALU
       SUB : begin 
         result = A + ~B + 1; 
       end 
+      NOP : begin 
+        result = A; 
+      end
       default : begin 
-        result = {WORD_WIDTH{1'b0}};     
+        result = A;     
       end
     endcase
   end
