@@ -1,26 +1,35 @@
-module Adder_test
+module Adder_test;
+  
+  parameter WORD_WIDTH = 16;
+  
+  reg signed [WORD_WIDTH-1:0]  A;
+  reg signed [WORD_WIDTH-1:0]  B;
+  wire signed [WORD_WIDTH-1:0] out;
+  
+  //-----instance of Adder module
+  Adder 
   #(
-  parameter WORD_WIDTH = 16
-  )
-  (
-  );
-  
-  reg signed [WORD_WIDTH-1:0]  a;
-  reg signed [WORD_WIDTH-1:0]  b;
-  wire signed [WORD_WIDTH-1:0]  OUT;
-  
-  Adder Add(.A(a),.B(b),.out(OUT));
+    .WORD_WIDTH(WORD_WIDTH)
+  ) Adder_inst (
+    .A(A),
+    .B(B),
+    .out(out)
+    );
   
   initial begin
-    a=156;
-    b=12;
+    A = 16'd156;
+    B = 16'd12;
     #200;
-    a=148;
-    b=45;
+    A = 16'd148;
+    B = 16'd45;
     #200;
     $stop;
   end
-endmodule
+  
+  initial begin
+    $display("Adder WIDTH = %0d", WORD_WIDTH);
+    $monitor("@%3tns: %0d + %0b = %0b", 
+      $time, A, B, out);
+    end
     
-
-
+endmodule
