@@ -44,8 +44,26 @@ def vector_mode(x, y, iterations):
                 next_y = current_y + current_x // (2**i)
                 next_z = current_z - ROM_lookup[i]
 
-            current_x = next_x
-            current_y = next_y
+
+            if (-32768 <= next_x <= 32767):
+                current_x = next_x
+
+            elif (next_x > 32767):
+                current_x = next_x-65536
+
+            else:
+                current_x = next_x+65536
+
+
+            if (-32768 <= next_y <= 32767):
+                current_y = next_y
+
+            elif (next_y > 32767):
+                current_y = next_y-65536
+
+            else:
+                current_y = next_y+65536
+
             current_z = next_z
 
             x_val_list.append(current_x)
