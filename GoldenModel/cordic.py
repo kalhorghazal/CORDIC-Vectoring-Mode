@@ -22,6 +22,10 @@ def vector_mode(x, y, iterations):
                 next_x = current_x + current_y * (2**(-1*i))
                 next_y = current_y - current_x * 2**(-1*i)
                 next_z = current_z + ROM_lookup(i)
+            else if (current_y == 0):
+                next_x = current_x
+                next_y = current_y
+                next_z = current_z
             else:
                 next_x = current_x - current_y * (2**(-1*i))
                 next_y = current_y + current_x * 2**(-1*i)
