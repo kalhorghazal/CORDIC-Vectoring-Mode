@@ -8,6 +8,8 @@ parameter clock_period = 2;
 reg [WORD_WIDTH-1:0] in;
 wire [1:0]           out;
 
+reg [8*4:1] operator;
+
 //-----instance of sign module
 sign
 #(
@@ -18,6 +20,10 @@ sign
   .sign_ans(out)
 )
 ;
+
+always @(*) begin
+  operator = ((out == 0)? ">":((out == 2)? "=":"<"));
+end
 
 initial
  begin
@@ -42,7 +48,7 @@ initial
   
   initial begin
     $display("sign WIDTH = %0d", WORD_WIDTH);
-    $monitor("@%3tns: sign(%0b) = %0b", $time, in, out);
+    $monitor("@%3tns: %0b %0s 0", $time, in, operator);
   end
     
 endmodule
