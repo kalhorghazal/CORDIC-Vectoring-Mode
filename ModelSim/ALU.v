@@ -25,7 +25,7 @@ module ALU
         result = A + B;      
       end
       SUB : begin 
-        result = A + ~B + 1; 
+        result = A + ~B + 16'b1; 
       end 
       NOP : begin 
         result = A; 
