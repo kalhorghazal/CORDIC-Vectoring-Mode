@@ -1,6 +1,8 @@
+`include "settings.h"  
+
  module register
 #(
-  parameter WORD_WIDTH = 16
+  parameter WORD_WIDTH = `WORD_WIDTH
 )  
 (
   input                               clk,
