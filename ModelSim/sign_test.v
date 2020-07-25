@@ -1,9 +1,9 @@
-`timescale 1ns/1ns
+`include "settings.h"  
 
 module sign_test;
 
-parameter WORD_WIDTH = 16;
-parameter clock_period = 2;
+parameter WORD_WIDTH = `WORD_WIDTH;
+parameter clock_period = `CLOCK_PERIOD;
 
 reg [WORD_WIDTH-1:0] in;
 wire [1:0]           out;
