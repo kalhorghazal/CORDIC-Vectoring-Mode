@@ -1,6 +1,9 @@
+`include "settings.h"  
+
 module Adder_test;
   
-  parameter WORD_WIDTH = 16;
+  parameter WORD_WIDTH = `WORD_WIDTH;
+  parameter clock_period = `CLOCK_PERIOD;
   
   reg signed [WORD_WIDTH-1:0]  A;
   reg signed [WORD_WIDTH-1:0]  B;
@@ -19,10 +22,10 @@ module Adder_test;
   initial begin
     A = 16'd156;
     B = 16'd12;
-    #200;
+    # clock_period;
     A = 16'd148;
     B = 16'd45;
-    #200;
+    # (5*clock_period);
     $stop;
   end
   
