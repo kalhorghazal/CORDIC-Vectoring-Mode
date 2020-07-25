@@ -1,6 +1,9 @@
+`include "settings.h" 
+
 module ALU_test;
   
-  parameter WORD_WIDTH = 16;
+  parameter WORD_WIDTH = `WORD_WIDTH;
+  parameter clock_period = `CLOCK_PERIOD;
   
   parameter ADD = 2'd0; 
   parameter SUB = 2'd1;
@@ -29,47 +32,48 @@ module ALU_test;
      A = {WORD_WIDTH{1'b0}}; 
      B = {WORD_WIDTH{1'b0}};
      operator = "+";
-     #10
+     # clock_period;
      ALU_operation = ADD;
      A = 16'd16;
      B = 16'd32;
      operator = "+";
-     #10
+     # clock_period;
      ALU_operation = ADD;
      A = 16'd21;
      B = 16'd18;
      operator = "+";
-     #10
+     # clock_period;
      ALU_operation = NOP;
      A = {WORD_WIDTH{1'b1}};
      B = 16'd1;
      operator = "?";
-     #10
+     # clock_period;
      ALU_operation = NOP;
      A = 16'd128;
      B = 16'd17;
      operator = "?";
-     #10
+     # clock_period;
      ALU_operation = NOP;
      A = 16'd64;
      B = 16'd24;
      operator = "?";
-     #10
+     # clock_period;
      ALU_operation = SUB;
      A = 16'd20;
      B = 16'd20;
      operator = "-";
-     #10
+     # clock_period;
      ALU_operation = SUB;
      A = 16'd72;
      B = 16'd25;
      operator = "-";
-     #10
+     # clock_period;
      ALU_operation = SUB;
      A = 16'd45;
      B = 16'd90;
      operator = "-";
-     #20 $stop;
+     # (5*clock_period); 
+     $stop;
   end
   
   initial begin
