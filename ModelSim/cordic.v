@@ -95,7 +95,7 @@ endfunction
 
 genvar i;
 generate 
-  for(i=0; i < `ITERATIONS-1; i=i+1) begin
+  for(i=0; i < `ITERATIONS-1; i=i+1) begin : rotating
     rotator 
     #(
       .ITERATION(i),
