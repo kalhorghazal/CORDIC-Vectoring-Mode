@@ -1,33 +1,48 @@
-module register_test
+`include "settings.h"  
+
+module register_test;
+
+  parameter WORD_WIDTH = `WORD_WIDTH;
+  parameter clock_period = `CLOCK_PERIOD;
+
+  reg                          clk;
+  reg                          rst;
+  reg signed [WORD_WIDTH-1:0]  data_in;
+  wire signed [WORD_WIDTH-1:0] data_out;
+  
+  //-----instance of register module
+  register 
   #(
-    parameter WORD_WIDTH = 16,
-    parameter CLK_PERIOD = 10
-  )
-  (
+  ) register_inst(
+  .clk(clk),
+  .rst(rst),
+  .data_in(data_in),
+  .data_out(data_out)
   );
   
-  reg                               CLK;
-  reg                               RST;
-  reg signed [WORD_WIDTH-1:0]      DATA_IN;
-  wire signed [WORD_WIDTH-1:0] DATA_OUT;
-  
-  register REG(.clk(CLK),.rst(RST),.data_in(DATA_IN),.data_out(DATA_OUT));
-  
   initial begin
-    CLK=0;
-    forever CLK=#CLK_PERIOD ~CLK;
+    clk = 0;
+    forever clk = #clock_period ~clk;
   end
 
   initial begin
-    RST=0;
-    DATA_IN=164;
-    #200;
-    RST=1;
-    #200;
+    data_in = 16'd164;
+    rst = 0;
+    # clock_period;
+    rst = 1;
+    # clock_period;
+    data_in = 16'd21;
+    rst = 0;
+    # clock_period;
+    rst = 1;
+    # (5*clock_period);
     $stop;
   end
   
-  
+  initial begin
+    $display("register WIDTH = %0d", WORD_WIDTH);
+    $monitor("@%3tns: data_in = %0d , data_out = %0d", 
+      $time, data_in, data_out);
+    end
     
 endmodule
-
