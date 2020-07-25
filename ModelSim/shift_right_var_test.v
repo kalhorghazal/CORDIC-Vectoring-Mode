@@ -1,7 +1,10 @@
+`include "settings.h"  
+
 module shift_right_var_test;
 
-  parameter WORD_WIDTH = 16;
-  parameter SHIFT_WIDTH = 4;
+  parameter WORD_WIDTH = `WORD_WIDTH;
+  parameter SHIFT_WIDTH = `SHIFT_WIDTH;
+  parameter clock_period = `CLOCK_PERIOD;
   
   reg signed [WORD_WIDTH-1:0]  data_in;
   reg [SHIFT_WIDTH-1:0]        shift_amount;
@@ -21,12 +24,12 @@ module shift_right_var_test;
   initial begin
     data_in = 597;
     shift_amount = 3;
-    #200;
+    # clock_period;
     shift_amount = 1;
-    #200;
+    # clock_period;
     data_in = 16;
     shift_amount = 2;
-    #200;
+    # (5*clock_period);
     $stop;
   end
   
