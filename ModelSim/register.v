@@ -13,7 +13,7 @@
   
 always @(posedge clk or negedge rst) begin
   if(~rst) begin
-    data_out <= 0;
+    data_out <= 16'b0;
   end  
   else begin
     data_out <= data_in;
