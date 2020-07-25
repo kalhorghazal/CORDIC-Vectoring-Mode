@@ -1,4 +1,4 @@
-`include "defines.v"   
+`include "settings.h"   
  
 module rotator 
 #(
@@ -18,7 +18,8 @@ module rotator
   output signed [`PHASE_WIDTH-1:0] z_out
 );
 
-wire signed [1:0] sign_out_y;
+  wire signed [1:0] sign_out_y;
+  wire signed [1:0] neg_sign_out_y;
 
   wire signed [`WORD_WIDTH-1:0] shift_out_x;
   wire signed [`WORD_WIDTH-1:0] shift_out_y;
@@ -26,6 +27,8 @@ wire signed [1:0] sign_out_y;
   wire signed [`WORD_WIDTH-1:0] ALU_out_x;
   wire signed [`WORD_WIDTH-1:0] ALU_out_y;
   wire signed [`PHASE_WIDTH-1:0] ALU_out_z;
+  
+  assign neg_sign_out_y = (sign_out_y == 2'd2) ? 2'd2 : ((sign_out_y == 2'd0)? 2'd1 : 2'd0);
   
   sign
   #(
@@ -52,7 +55,7 @@ wire signed [1:0] sign_out_y;
    .WORD_WIDTH(`WORD_WIDTH)
   )
   ALU_inst_y (
-   .ALU_operation((y_in > 0) ? 2'd1 : ((y_in == 0)? 2'd2 : 2'd0)),
+   .ALU_operation(neg_sign_out_y),
    .A(y_in),
    .B(shift_out_x),
    .AlU_out(ALU_out_y)
