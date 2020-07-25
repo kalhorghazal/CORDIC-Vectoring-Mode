@@ -1,7 +1,9 @@
+`include "settings.h"  
+
 module control_unit
 #(
-  parameter ITERATION_WIDTH = 4,
-  parameter ITERATIONS = 16
+  parameter ITERATION_WIDTH = `ITERATION_WIDTH,
+  parameter ITERATIONS = `ITERATIONS
 )
 (
   input      clk,
@@ -23,6 +25,7 @@ module control_unit
     done = 0;
     case(state)
       IDLE: begin
+        done = 1;
       end
       COMPUTE: begin
       end
