@@ -1,6 +1,8 @@
+`include "settings.h"  
+
  module mux_4_to_1 
 #(
-  parameter WORD_WIDTH = 16
+  parameter WORD_WIDTH = `WORD_WIDTH
 )
 (
   input [1:0]                 sel,
