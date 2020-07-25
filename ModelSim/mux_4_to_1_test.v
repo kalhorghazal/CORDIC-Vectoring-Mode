@@ -1,9 +1,9 @@
-`timescale 1ns/1ns
+`include "settings.h"  
 
 module mux_4_to_1_test;
 
-parameter WORD_WIDTH = 16;
-parameter clock_period = 4;
+parameter WORD_WIDTH = `WORD_WIDTH;
+parameter clock_period = `CLOCK_PERIOD;
 
 reg [1:0]             sel;
 reg [WORD_WIDTH-1:0]  in1;
