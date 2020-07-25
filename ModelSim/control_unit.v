@@ -70,7 +70,7 @@ module control_unit
       iteration_counter <= 0;
     end
     else if(state == COMPUTE) begin
-      iteration_counter <= iteration_counter + 1;
+      iteration_counter <= iteration_counter + 4'b1;
     end
     else begin
       iteration_counter <= iteration_counter;
