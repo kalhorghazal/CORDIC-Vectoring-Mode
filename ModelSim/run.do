@@ -1,3 +1,7 @@
+project open CORDIC.mpf
+
+project compileall
+
 vsim -gui work.cordic_test
 
 add wave -position insertpoint  \
