@@ -1,6 +1,8 @@
+`include "settings.h"  
+
 module sign 
 #(
-  parameter WORD_WIDTH = 16
+  parameter WORD_WIDTH = `WORD_WIDTH
 )
 (
   input signed [WORD_WIDTH-1:0] ans,
