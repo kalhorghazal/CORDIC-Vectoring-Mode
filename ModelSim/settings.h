@@ -1,0 +1,9 @@
+`timescale 1ns/1ns
+
+`define TEST_CASES 10
+`define SHIFT_WIDTH 4
+`define ITERATIONS 16
+`define WORD_WIDTH 16
+`define CLOCK_PERIOD 2
+`define PHASE_WIDTH 16
+`define ITERATION_WIDTH 4  // 2^ITERATION_WIDTH = ITERATIONS
