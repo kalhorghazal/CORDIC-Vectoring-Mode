@@ -1,92 +1,130 @@
-`timescale 1ns/1ns
-
-`include "defines.v"
-
-module cordic_test;
-  
-integer file_x, file_y, file_z;
-integer scan_x, scan_y;
-
-parameter clock_period = 2;
-parameter TEST_CASES = 100;
-
-localparam sf = 2.0**-7.0;  //scaling factor is 2^-7
-
-reg                            clk;
-reg                            rst;
-reg                            start;
-wire                           done;
-reg signed [`WORD_WIDTH-1:0]   x_in;
-reg signed [`WORD_WIDTH-1:0]   y_in;
-wire [`PHASE_WIDTH-1:0] z_out;
-
-//-----instance of interface module
-interface
-  interface_inst (
-  .clk(clk),
-  .rst(rst),
-  .start(start),
-  .done(done),
-  .x_in(x_in),
-  .y_in(y_in),
-  .z_out(z_out)
+`include "defines.v"   
+ 
+module rotator 
+#(
+  parameter [3:0] ITERATION = 4'd0,
+  parameter signed [`PHASE_WIDTH-1:0] PHASE = 0
 )
-;
-
-//generating clock for the test bench
-initial
-   begin
-      clk = 0;
-      forever clk = #(clock_period/2)  ~clk;
-   end
-
-initial begin
-    file_x = $fopen("x_values.txt", "r");
-    if (file_x == 1) begin
-      $display("file_x handle was NULL");
-      $finish;
-    end
-  end
+(
+  input                            clk,
+  input                            rst,
   
-initial begin
-  file_y = $fopen("y_values.txt", "r");
-  if (file_y == 1) begin
-    $display("file_y handle was NULL");
-    $finish;
-  end
-end
+  input signed [`WORD_WIDTH-1:0]   x_in,
+  input signed [`WORD_WIDTH-1:0]   y_in,
+  input signed [`PHASE_WIDTH-1:0]  z_in,
+  
+  output signed [`WORD_WIDTH-1:0]  x_out,
+  output signed [`WORD_WIDTH-1:0]  y_out,
+  output signed [`PHASE_WIDTH-1:0] z_out
+);
 
-initial begin
-  file_z = $fopen("verilog_phase.txt", "w");
-  if (file_z == 1) begin
-    $display("file_y handle was NULL");
-    $finish;
-  end
-end
+  wire signed [1:0] sign_out_y;
+  wire signed [1:0] neg_sign_out_y;
 
-initial
-   begin
-      repeat(TEST_CASES)
-        begin
-          if(!$feof(file_x))
-              scan_x = $fscanf(file_x, "%b\n", x_in);
-            
-          if(!$feof(file_y))
-              scan_y = $fscanf(file_y, "%b\n", y_in);
-              
-          start  = 1;
-          rst = 0;
-          # clock_period;
-          rst = 1;
-          start = 0;
-          # (100*clock_period);
-          
-          $fdisplay(file_z, "%0f", $itor(z_out)*sf);
-              
-          $display("@%3tns: arctan(%0d/%0d) = %0f", 
-              $time, y_in, x_in, $itor(z_out)*sf);
-        end
-        $stop;
-   end
-    
+  wire signed [`WORD_WIDTH-1:0] shift_out_x;
+  wire signed [`WORD_WIDTH-1:0] shift_out_y;
+  
+  wire signed [`WORD_WIDTH-1:0] ALU_out_x;
+  wire signed [`WORD_WIDTH-1:0] ALU_out_y;
+  wire signed [`PHASE_WIDTH-1:0] ALU_out_z;
+  
+  assign neg_sign_out_y = (sign_out_y == 2'd2) ? 2'd2 : ((sign_out_y == 2'd0)? 2'd1 : 2'd0);
+  
+  sign
+  #(
+   .WORD_WIDTH(`WORD_WIDTH)
+  )
+  sign_inst (
+   .ans(y_in),
+   .sign_ans(sign_out_y)
+  );
+  
+  ALU
+  #(
+   .WORD_WIDTH(`WORD_WIDTH)
+  )
+  ALU_inst_x (
+   .ALU_operation(sign_out_y),
+   .A(x_in),
+   .B(shift_out_y),
+   .AlU_out(ALU_out_x)
+  ); 
+  
+  ALU
+  #(
+   .WORD_WIDTH(`WORD_WIDTH)
+  )
+  ALU_inst_y (
+   .ALU_operation(neg_sign_out_y),
+   .A(y_in),
+   .B(shift_out_x),
+   .AlU_out(ALU_out_y)
+  );
+  
+  ALU
+  #(
+   .WORD_WIDTH(`PHASE_WIDTH)
+  )
+  ALU_inst_z (
+   .ALU_operation(sign_out_y),
+   .A(z_in),
+   .B(PHASE),
+   .AlU_out(ALU_out_z)
+  );
+  
+  register
+  #(
+   .WORD_WIDTH(`WORD_WIDTH)
+  )
+  register_inst_x (
+   .clk(clk),
+   .rst(rst),
+   .data_in(ALU_out_x),
+   .data_out(x_out)
+  ); 
+  
+  register
+  #(
+   .WORD_WIDTH(`WORD_WIDTH)
+  )
+  register_inst_y (
+   .clk(clk),
+   .rst(rst),
+   .data_in(ALU_out_y),
+   .data_out(y_out)
+  );
+  
+  register
+  #(
+   .WORD_WIDTH(`PHASE_WIDTH)
+  )
+  register_inst_z (
+   .clk(clk),
+   .rst(rst),
+   .data_in(ALU_out_z),
+   .data_out(z_out)
+  );
+  
+  shift_right_var 
+  #(
+    .WORD_WIDTH(`WORD_WIDTH),
+    .SHIFT_WIDTH(`ITERATION_WIDTH)
+  )
+  shift_right_var_inst_x (
+    .data_in(x_in), 
+    .shift_amount(ITERATION), 
+    .data_out(shift_out_x)
+  );
+  
+  shift_right_var 
+  #(
+    .WORD_WIDTH(`WORD_WIDTH),
+    .SHIFT_WIDTH(`ITERATION_WIDTH)
+  )
+  shift_right_var_inst_y (
+    .data_in(y_in), 
+    .shift_amount(ITERATION), 
+    .data_out(shift_out_y)
+  );
+  
 endmodule
