@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-`define TEST_CASES 10
+`define TEST_CASES 100
 `define SHIFT_WIDTH 4
 `define ITERATIONS 16
 `define WORD_WIDTH 16
