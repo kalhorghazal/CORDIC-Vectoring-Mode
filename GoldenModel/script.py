@@ -11,8 +11,8 @@ def binary_string(val):
 
 if __name__ == '__main__':
 
-	x_file = "x_values.txt"
-	y_file = "y_values.txt"
+	x_file = "../ModelSim/x_values.txt"
+	y_file = "../ModelSim/y_values.txt"
 	z_file = "python_phase.txt"
 
 	x_values = open(x_file, "w")
