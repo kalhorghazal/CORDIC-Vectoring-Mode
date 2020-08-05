@@ -2,7 +2,7 @@ import cordic
 import random
 
 ITERATIONS = 16
-TEST_CASES = 65536
+TEST_CASES = 100
 
 def binary_string(val):
 	ans = (val if val>0 else val+(1<<16))
