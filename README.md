@@ -1,4 +1,5 @@
-CORDIC (COordinate Rotation DIgital Computer) is an iterative algorithm for the
+# Pipeline CORDIC Algorithm in Vectoring Mode
+**CORDIC** (COordinate Rotation DIgital Computer) is an iterative algorithm for the
 calculation of the rotation of a two-dimensional vector, in linear, circular and hyperbolic coordinate
 systems, using only add and shift operations. Its current application are in the field of digital signal
 processing, image processing, filtering, matrix algebra, etc.. It consists of two operating modes, the rotation mode
