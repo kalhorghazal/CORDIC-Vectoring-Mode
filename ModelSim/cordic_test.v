@@ -81,14 +81,10 @@ initial
           
           $fdisplay(file_z, "%0f", $itor(z_out)*sf);
                     
-          $display("@%3tns: done = %0b, arctan(%0d/%0d) = %0f", 
-              $time, done, y_in, x_in, $itor(z_out)*sf);
+          $display("@%3tns: arctan(%0d/%0d) = %0f", 
+              $time, y_in, x_in, $itor(z_out)*sf);
         end
         $stop;
-   end
-   
-   initial begin
-     $monitor("%d", done);
    end
     
 endmodule
